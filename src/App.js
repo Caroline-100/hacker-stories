@@ -45,22 +45,10 @@ const App = () => {
       objectID: 3,
     },
   ];
-  const [searchTerm, setsearchTerm] = React.useState('');
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    setsearchTerm(event.target.value)
-
-  }
-
   return (
     <div>
       <h1>Hello World {title}</h1>
-
-      <label htmlFor="search">Search: </label>
-      <input onChange={handleChange} id='search' type='text'/>
-      <p>
-        Searching for <strong>{searchTerm}</strong>
-      </p>
+        <Search/>
       <h1>
         {welcome.greeting} {welcome.title} {greeting("Caroline")}
       </h1>
@@ -68,6 +56,24 @@ const App = () => {
       <List list={stories}/>
     </div>
   );
+}
+const Search = () => {
+
+  const [searchTerm, setsearchTerm] = React.useState('');
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    setsearchTerm(event.target.value)
+  }
+    return(
+      <div>
+      <label htmlFor="search">Search: </label>
+      <input onChange={handleChange} id='search' type='text'/>
+      <p>
+        Searching for <strong>{searchTerm}</strong>
+      </p>
+      </div>
+    )
+
 }
 
 const List = (props) => {
