@@ -53,7 +53,7 @@ const App = () => {
   return (
     <div>
       <h1>Hello World {title}</h1>
-      <Search />
+      <Search/>
       <h1>
         {welcome.greeting} {welcome.title} {greeting("Caroline")}
       </h1>
@@ -63,10 +63,13 @@ const App = () => {
   );
 }
 const Search = () => {
+  function handleChangeInput (event) {
+    console.log(event.target.value)
+  }
   return (
     <div>
       <label htmlFor="search">Search :</label>
-      <input id="search" type="text" />
+      <input onChange={handleChangeInput} id="search" type="text" />
     </div>
   );
 }
