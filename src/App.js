@@ -49,7 +49,7 @@ const arrayNumbs = list.map(function (item) {
   return <li key={item.objectID}>{item.author}</li>;
 });
 
-function App() {
+const App = () => {
   return (
     <div>
       <h1>Hello World {title}</h1>
@@ -62,7 +62,7 @@ function App() {
     </div>
   );
 }
-function Search() {
+const Search = () => {
   return (
     <div>
       <label htmlFor="search">Search :</label>
@@ -70,7 +70,7 @@ function Search() {
     </div>
   );
 }
-function List() {
+const List = () => {
   return (
     <div>
       <ul>{arrayNumbs}</ul>
