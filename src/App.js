@@ -27,6 +27,24 @@ const list = [
     points: 5,
     objectID: 1,
   },
+  {
+    title: "Eloquent JavaScript",
+    url: "https://eloquentjavascript.net/",
+    author: "Marijn Haverbeke",
+    num_comments: 3,
+    points: 3,
+    objectID: 2,
+  },
+  {
+    title: "Twitter Bootsrap 4",
+    url: "https://www.syncfusion.com/ebooks/twitterbootstrap4-succinctly/the-grids-the-grids-the-beautiful-grids",
+    author: "Peter Shaw",
+    num_comments: 2,
+    points: 4,
+    objectID: 3,
+  },
+  
+
 ];
 // const arrayNumbers = [1,2,34,5,6];
 const arrayNumbs = list.map(function (item) {
@@ -43,6 +61,14 @@ function App() {
         {welcome.greeting} {welcome.title} {greeting("Caroline")}
       </h1>
       <hr />
+      <List/>
+    </div>
+  );
+}
+
+function List () {
+return (
+  <div>
       <ul>{arrayNumbs}</ul>
       <ul>
         {list.map(function (item) {
@@ -54,14 +80,21 @@ function App() {
         return (
           <div key={item.objectID}>
             <span><a href={item.url}>{item.title}</a></span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
+            <p>{item.author}</p>
+            <ul>
+            <li> num comments : {item.num_comments}</li>
+            <li> num points : {item.points}</li>
+            </ul>
           </div>
         );
       })}
     </div>
-  );
+ 
+)
 }
 
 export default App;
+
+
+//What happens if your return null instead of the JSX?
+// I think, no error in the page. I found an empty page 
