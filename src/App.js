@@ -1,4 +1,4 @@
-// import logo from "./logo.svg";
+import React from "react";
 import "./App.css";
 
 function greeting(title) {
@@ -9,45 +9,6 @@ const welcome = {
   greeting: "Hey ",
   title: title,
 };
-//Render an array
-// const list = [
-//   {
-//     title: "Reacts",
-//     url: "https://reactjs.org/",
-//     author: "Jordan Walke",
-//     num_comments: 3,
-//     points: 4,
-//     objectID: 0,
-//   },
-//   {
-//     title: "Redux",
-//     url: "https://redux.js.org/",
-//     author: "Dan Abramov, Andrew Clark",
-//     num_comments: 2,
-//     points: 5,
-//     objectID: 1,
-//   },
-//   {
-//     title: "Eloquent JavaScript",
-//     url: "https://eloquentjavascript.net/",
-//     author: "Marijn Haverbeke",
-//     num_comments: 3,
-//     points: 3,
-//     objectID: 2,
-//   },
-//   {
-//     title: "Twitter Bootsrap 4",
-//     url: "https://www.syncfusion.com/ebooks/twitterbootstrap4-succinctly/the-grids-the-grids-the-beautiful-grids",
-//     author: "Peter Shaw",
-//     num_comments: 2,
-//     points: 4,
-//     objectID: 3,
-//   },
-// ];
-// // const arrayNumbers = [1,2,34,5,6];
-// const arrayNumbs = list.map(function (item) {
-//   return <li key={item.objectID}>{item.author}</li>;
-// });
 
 const App = () => {
   const stories = [
@@ -84,10 +45,22 @@ const App = () => {
       objectID: 3,
     },
   ];
+  const [searchTerm, setsearchTerm] = React.useState('');
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    setsearchTerm(event.target.value)
+
+  }
+
   return (
     <div>
       <h1>Hello World {title}</h1>
-      {/* <Search/> */}
+
+      <label htmlFor="search">Search: </label>
+      <input onChange={handleChange} id='search' type='text'/>
+      <p>
+        Searching for <strong>{searchTerm}</strong>
+      </p>
       <h1>
         {welcome.greeting} {welcome.title} {greeting("Caroline")}
       </h1>
