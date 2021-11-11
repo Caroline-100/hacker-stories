@@ -43,8 +43,6 @@ const list = [
     points: 4,
     objectID: 3,
   },
-  
-
 ];
 // const arrayNumbers = [1,2,34,5,6];
 const arrayNumbs = list.map(function (item) {
@@ -55,20 +53,26 @@ function App() {
   return (
     <div>
       <h1>Hello World {title}</h1>
-      <label htmlFor="search">Search :</label>
-      <input id="search" type="text" />
+      <Search />
       <h1>
         {welcome.greeting} {welcome.title} {greeting("Caroline")}
       </h1>
       <hr />
-      <List/>
+      <List />
     </div>
   );
 }
-
-function List () {
-return (
-  <div>
+function Search() {
+  return (
+    <div>
+      <label htmlFor="search">Search :</label>
+      <input id="search" type="text" />
+    </div>
+  );
+}
+function List() {
+  return (
+    <div>
       <ul>{arrayNumbs}</ul>
       <ul>
         {list.map(function (item) {
@@ -79,22 +83,48 @@ return (
       {list.map(function (item) {
         return (
           <div key={item.objectID}>
-            <span><a href={item.url}>{item.title}</a></span>
+            <LinkTitle url={item.url} title={item.title} />
             <p>{item.author}</p>
-            <ul>
-            <li> num comments : {item.num_comments}</li>
-            <li> num points : {item.points}</li>
-            </ul>
+            <NumofCommentAndPoints comments={item.num_comments} points={item.points}/>
           </div>
         );
       })}
     </div>
- 
-)
+  );
 }
+// child of List return Link using props
+function LinkTitle(props) {
+  return (
+    <span>
+      <a href={props.url}>{props.title}</a>
+    </span>)
+}
+// child of List return num of comments and Points
+function NumofCommentAndPoints(props) {
+  return (
+    <ul>
+      <li> num comments : {props.comments}</li>
+      <li> num points : {props.points}</li>
+    </ul>
+  )
+}
+
+class Developper {
+  constructor(firstName, lastName) {
+    this.firstName = firstName
+    this.lastName = lastName
+  }
+  getName() {
+    return `${this.lastName} ${this.firstName}`
+  }
+}
+//instanciation
+const robin = new Developper('Robin', 'Wood');
+// const denis = new Developper('Denis','Ben');
+
+console.log(robin.firstName, robin.lastName);
 
 export default App;
 
-
 //What happens if your return null instead of the JSX?
-// I think, no error in the page. I found an empty page 
+// I think, no error in the page. I found an empty page
