@@ -45,7 +45,7 @@ const App = () => {
       objectID: 3,
     },
   ];
-  const [searchTerm, setsearchTerm] = React.useState('');
+  const [searchTerm, setsearchTerm] = React.useState('React');
   const handleChange = (event) => {
     setsearchTerm(event.target.value)
   }
@@ -57,7 +57,7 @@ const App = () => {
   return (
     <div>
       <h1>Hello World {title}</h1>
-      <Search onSearch={handleChange} searchTerm={searchTerm} />
+      <Search onSearch={handleChange} search={searchTerm}/>
       <h1>
         {welcome.greeting} {welcome.title} {greeting("Caroline")}
       </h1>
@@ -70,7 +70,7 @@ const Search = (props) => {
   return (
     <div>
       <label htmlFor="search">Search: </label>
-      <input onChange={props.onSearch} id='search' type='text' />
+      <input id='search' type='text' value={props.search} onChange={props.onSearch} />
       <p>
         Searching for <strong>{props.searchTerm}</strong>
       </p>
