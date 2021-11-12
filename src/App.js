@@ -81,27 +81,35 @@ const Search = ({ onSearch, search, searchTerm }) => {
 }
 
 const List = ({ list }) =>
-  list.map(item => <ItemList key={item.objectID} item={item}/>);
+  list.map(item => <ItemList 
+    key={item.objectID} 
+    title={item.title} 
+    url={item.url} 
+    comments={item.num_comments}
+    points={item.points}/>);
   
-const ItemList = ({item}) => (
+const ItemList = ({title,url, points,author,comments}) => (
+
       <div>
-        <LinkTitle url={item.url} title={item.title}/>
-        <NumofCommentAndPoints comments={item.num_comments} points={item.points}/>
+        <LinkTitle url={url} title={title}/>
+
+        <NumofCommentAndPoints author={author} comments={comments} points={points}/>
       </div>
   )
 // child of List return Link using props
-function LinkTitle(props) {
+function LinkTitle({url,title}) {
   return (
     <span>
-      <a href={props.url}>{props.title}</a>
+      <a href={url}>{title}</a>
     </span>)
 }
 // // // child of List return num of comments and Points
-function NumofCommentAndPoints(props) {
+function NumofCommentAndPoints({author,comments,points}) {
   return (
     <ul>
-      <li> num comments : {props.comments}</li>
-      <li> num points : {props.points}</li>
+      <li > author : {author}</li>
+      <li> num comments : {comments}</li>
+      <li> num points : {points}</li>
     </ul>
   )
 }
