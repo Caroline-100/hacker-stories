@@ -46,7 +46,7 @@ const App = () => {
     },
   ];
   const [searchTerm, setsearchTerm] = React.useState('React');
-  const handleChange = (event) => {
+  const handleSearch = (event) => {
     setsearchTerm(event.target.value)
   }
   const searchStories = stories.filter((story) => {
@@ -57,7 +57,7 @@ const App = () => {
   return (
     <div>
       <h1>Hello World {title}</h1>
-      <Search onSearch={handleChange} search={searchTerm}/>
+      <Search onSearch={handleSearch} searchTerm={searchTerm} search={searchTerm} />
       <h1>
         {welcome.greeting} {welcome.title} {greeting("Caroline")}
       </h1>
@@ -66,41 +66,29 @@ const App = () => {
     </div>
   );
 }
-const Search = (props) => {
+const Search = ({ onSearch, search, searchTerm }) => {
+
   return (
     <div>
       <label htmlFor="search">Search: </label>
-      <input id='search' type='text' value={props.search} onChange={props.onSearch} />
+      <input onChange={onSearch} id='search' type='text' value={search} />
       <p>
-        Searching for <strong>{props.searchTerm}</strong>
+        Searching for <strong>{searchTerm}</strong>
       </p>
     </div>
   )
 
 }
 
-const List = (props) => {
-  return (
-    <div>
-      {/* <ul>{arrayNumbs}</ul> */}
-      <ul>
-        {props.list.map(function (item) {
-          return <li key={item.objectID}>{item.num_comments}</li>;
-        })}
-      </ul>
-      <hr />
-      {props.list.map(function (item) {
-        return (
-          <div key={item.objectID}>
-            <LinkTitle url={item.url} title={item.title} />
-            <p>{item.author}</p>
-            <NumofCommentAndPoints comments={item.num_comments} points={item.points} />
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+const List = ({ list }) =>
+  list.map(item => <ItemList key={item.objectID} item={item}/>);
+  
+const ItemList = ({item}) => (
+      <div>
+        <LinkTitle url={item.url} title={item.title}/>
+        <NumofCommentAndPoints comments={item.num_comments} points={item.points}/>
+      </div>
+  )
 // child of List return Link using props
 function LinkTitle(props) {
   return (
@@ -108,7 +96,7 @@ function LinkTitle(props) {
       <a href={props.url}>{props.title}</a>
     </span>)
 }
-// // child of List return num of comments and Points
+// // // child of List return num of comments and Points
 function NumofCommentAndPoints(props) {
   return (
     <ul>
@@ -132,6 +120,27 @@ const robin = new Developper('Robin', 'Wood');
 // const denis = new Developper('Denis','Ben');
 
 console.log(robin.firstName, robin.lastName);
+
+const user = {
+  firstName: 'Robin',
+  pet: {
+    name: 'trixy',
+  }
+}
+// without desconstruction
+// const firstName = user.firstName;
+// const pet = user.pet.name;
+
+// vs 
+
+// with desconstruction
+const { firstName,
+  pet: { name,
+  },
+} = user
+
+console.log(firstName + ' has a pet called ' + name);
+
 
 export default App;
 
