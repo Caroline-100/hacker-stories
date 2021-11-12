@@ -45,34 +45,37 @@ const App = () => {
       objectID: 3,
     },
   ];
+  const [searchTerm, setsearchTerm] = React.useState('');
+  const handleChange = (event) => {
+    setsearchTerm(event.target.value)
+  }
+  const searchStories = stories.filter((story) => {
+
+    return story.title.toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  })
   return (
     <div>
       <h1>Hello World {title}</h1>
-        <Search/>
+      <Search onSearch={handleChange} searchTerm={searchTerm} />
       <h1>
         {welcome.greeting} {welcome.title} {greeting("Caroline")}
       </h1>
       <hr />
-      <List list={stories}/>
+      <List list={searchStories} />
     </div>
   );
 }
-const Search = () => {
-
-  const [searchTerm, setsearchTerm] = React.useState('');
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    setsearchTerm(event.target.value)
-  }
-    return(
-      <div>
+const Search = (props) => {
+  return (
+    <div>
       <label htmlFor="search">Search: </label>
-      <input onChange={handleChange} id='search' type='text'/>
+      <input onChange={props.onSearch} id='search' type='text' />
       <p>
-        Searching for <strong>{searchTerm}</strong>
+        Searching for <strong>{props.searchTerm}</strong>
       </p>
-      </div>
-    )
+    </div>
+  )
 
 }
 
@@ -91,7 +94,7 @@ const List = (props) => {
           <div key={item.objectID}>
             <LinkTitle url={item.url} title={item.title} />
             <p>{item.author}</p>
-            <NumofCommentAndPoints comments={item.num_comments} points={item.points}/>
+            <NumofCommentAndPoints comments={item.num_comments} points={item.points} />
           </div>
         );
       })}
