@@ -1,6 +1,20 @@
 import React from "react";
 import "./App.css";
 
+// building hook 
+const useSemiPersistentState = (key, initialState) => {
+  const [value, setvalue] = React.useState(localStorage.getItem(key) || initialState);
+  console.log(localStorage.getItem(key));
+
+  React.useEffect(() => {
+    localStorage.setItem(key, value)
+  }
+    , [value, key])
+
+  return [value, setvalue]
+}
+
+
 function greeting(title) {
   return title;
 }
@@ -45,15 +59,16 @@ const App = () => {
       objectID: 3,
     },
   ];
-  const [searchTerm, setsearchTerm] = React.useState('React');
-  const handleSearch = (event) => {
+  const [searchTerm, setsearchTerm] = useSemiPersistentState(
+    'search'
+    , 'React'
+  );
+  const handleSearch = event => {
     setsearchTerm(event.target.value)
   }
-  const searchStories = stories.filter((story) => {
-
-    return story.title.toLowerCase()
-      .includes(searchTerm.toLowerCase())
-  })
+  const searchStories = stories.filter(story =>
+    story.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   return (
     <div>
       <h1>Hello World {title}</h1>
@@ -66,6 +81,7 @@ const App = () => {
     </div>
   );
 }
+
 const Search = ({ onSearch, search, searchTerm }) => {
 
   return (
@@ -81,39 +97,33 @@ const Search = ({ onSearch, search, searchTerm }) => {
 }
 
 const List = ({ list }) =>
-  list.map(item => <ItemList 
-    key={item.objectID} 
-    title={item.title} 
-    url={item.url} 
-    comments={item.num_comments}
-    points={item.points}/>);
-  
-const ItemList = ({title,url, points,author,comments}) => (
+  list.map(item => <ItemList key={item.objectID} item={item} />);
 
-      <div>
-        <LinkTitle url={url} title={title}/>
+const ItemList = ({ item }) => (
 
-        <NumofCommentAndPoints author={author} comments={comments} points={points}/>
-      </div>
-  )
-// child of List return Link using props
-function LinkTitle({url,title}) {
+  <div>
+    <LinkTitle url={item.url} title={item.title} />
+
+    < NumofCommentAndPoints author={item.author} comments={item.num_comments} points={item.points} />
+  </div>
+)
+// child of List 
+const LinkTitle = ({ url, title }) => {
   return (
     <span>
       <a href={url}>{title}</a>
     </span>)
 }
-// // // child of List return num of comments and Points
-function NumofCommentAndPoints({author,comments,points}) {
+// child of List 
+const NumofCommentAndPoints = ({ author, comments: numberOfComments, points }) => {
   return (
     <ul>
-      <li > author : {author}</li>
-      <li> num comments : {comments}</li>
+      <li> author : {author}</li>
+      <li> num comments : {numberOfComments}</li>
       <li> num points : {points}</li>
     </ul>
   )
 }
-
 class Developper {
   constructor(firstName, lastName) {
     this.firstName = firstName
@@ -135,6 +145,23 @@ const user = {
     name: 'trixy',
   }
 }
+
+const profile = {
+  firstName: 'Robin',
+  lastName: 'Wood',
+}
+const address = {
+  country: 'Island',
+  city: 'Akureyri',
+  code: '18433',
+}
+
+const user_2 = {
+  ...profile,
+  gender: 'male',
+  ...address
+}
+console.log(user_2);
 // without desconstruction
 // const firstName = user.firstName;
 // const pet = user.pet.name;
