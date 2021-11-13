@@ -70,28 +70,42 @@ const App = () => {
     story.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
   return (
-    <div>
+    <>
+
       <h1>Hello World {title}</h1>
+      <InputWithLabel id="search" label='Search' value={searchTerm} onInputChange={handleSearch} />
       <Search onSearch={handleSearch} searchTerm={searchTerm} search={searchTerm} />
       <h1>
         {welcome.greeting} {welcome.title} {greeting("Caroline")}
       </h1>
       <hr />
       <List list={searchStories} />
-    </div>
+    </>
   );
+}
+const InputWithLabel = ({ id, label, value, onInputChange, type }) => {
+  return (
+
+    <>
+      <label htmlFor={id}>{label}</label>
+      &nbsp;
+      <input id={id} type={type} value={value} onChange={onInputChange}
+      />
+    </>
+  )
+
 }
 
 const Search = ({ onSearch, search, searchTerm }) => {
 
   return (
-    <div>
-      <label htmlFor="search">Search: </label>
+    <>
+      <label htmlFor="search" value={searchTerm}>Search: </label>
       <input onChange={onSearch} id='search' type='text' value={search} />
       <p>
         Searching for <strong>{searchTerm}</strong>
       </p>
-    </div>
+    </>
   )
 
 }
@@ -101,11 +115,11 @@ const List = ({ list }) =>
 
 const ItemList = ({ item }) => (
 
-  <div>
+  <>
     <LinkTitle url={item.url} title={item.title} />
 
     < NumofCommentAndPoints author={item.author} comments={item.num_comments} points={item.points} />
-  </div>
+  </>
 )
 // child of List 
 const LinkTitle = ({ url, title }) => {
