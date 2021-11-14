@@ -25,7 +25,7 @@ const welcome = {
 };
 
 const App = () => {
-  const stories = [
+  const initialStories = [
     {
       title: "React",
       url: "https://reactjs.org/",
@@ -59,6 +59,7 @@ const App = () => {
       objectID: 3,
     },
   ];
+  const [stories, setStories] = React.useState(initialStories);
   const [searchTerm, setsearchTerm] = useSemiPersistentState(
     'search'
     , 'React'
@@ -66,33 +67,45 @@ const App = () => {
   const handleSearch = event => {
     setsearchTerm(event.target.value)
   }
-  const searchStories = stories.filter(story =>
+  const searchedStories = stories.filter(story =>
     story.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  const handleRemoveStories = item => {
+    const newStories = stories.filter(story => story.objectID !== item.objectID)
+    setStories(newStories)
+  }
+
   return (
     <>
 
       <h1>Hello World {title}</h1>
-      <InputWithLabel id="search" value={searchTerm} onInputChange={handleSearch}>
+      <InputWithLabel id="search" value={searchTerm} onInputChange={handleSearch} isFocused>
         Search :
       </InputWithLabel>
-      <Search onSearch={handleSearch} searchTerm={searchTerm} search={searchTerm}>Search :
-      </Search>
+      {/* <Search onSearch={handleSearch} searchTerm={searchTerm} search={searchTerm}>Search :
+      </Search> */}
       <h1>
         {welcome.greeting} {welcome.title} {greeting("Caroline")}
       </h1>
       <hr />
-      <List list={searchStories} />
+      <List list={searchedStories} onRemoveItem={handleRemoveStories} />
     </>
   );
 }
-const InputWithLabel = ({ id, children, value, onInputChange, type }) => {
+const InputWithLabel = ({ id, children, value, onInputChange, type, isFocused }) => {
+  const inputRef = React.useRef();
+  React.useEffect(() => {
+    if (isFocused) {
+      inputRef.current.focus();
+    }
+  }, [isFocused]);
   return (
 
     <>
       <label htmlFor={id}>{children}</label>
       &nbsp;
-      <input id={id} type={type} value={value} onChange={onInputChange}
+      <input id={id} type={type} value={value} onChange={onInputChange} autoFocus={isFocused}
+        ref={inputRef}
       />
     </>
   )
@@ -113,17 +126,18 @@ const Search = ({ onSearch, children, search, searchTerm }) => {
 
 }
 
-const List = ({ list }) =>
-  list.map(item => <ItemList key={item.objectID} item={item} />);
+const List = ({ list, onRemoveItem }) =>
+  list.map(item => <ItemList key={item.objectID} item={item} onRemoveItem={onRemoveItem} />);
 
-const ItemList = ({ item }) => (
-
+const ItemList = ({ item, onRemoveItem }) => {
   <>
     <LinkTitle url={item.url} title={item.title} />
-
     < NumofCommentAndPoints author={item.author} comments={item.num_comments} points={item.points} />
+    <span>
+      <button type='button' onClick={() => onRemoveItem(item)}>Dismiss</button>
+    </span>
   </>
-)
+}
 // child of List 
 const LinkTitle = ({ url, title }) => {
   return (
