@@ -73,8 +73,11 @@ const App = () => {
     <>
 
       <h1>Hello World {title}</h1>
-      <InputWithLabel id="search" label='Search' value={searchTerm} onInputChange={handleSearch} />
-      <Search onSearch={handleSearch} searchTerm={searchTerm} search={searchTerm} />
+      <InputWithLabel id="search" value={searchTerm} onInputChange={handleSearch}>
+        Search :
+      </InputWithLabel>
+      <Search onSearch={handleSearch} searchTerm={searchTerm} search={searchTerm}>Search :
+      </Search>
       <h1>
         {welcome.greeting} {welcome.title} {greeting("Caroline")}
       </h1>
@@ -83,11 +86,11 @@ const App = () => {
     </>
   );
 }
-const InputWithLabel = ({ id, label, value, onInputChange, type }) => {
+const InputWithLabel = ({ id, children, value, onInputChange, type }) => {
   return (
 
     <>
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id}>{children}</label>
       &nbsp;
       <input id={id} type={type} value={value} onChange={onInputChange}
       />
@@ -96,11 +99,11 @@ const InputWithLabel = ({ id, label, value, onInputChange, type }) => {
 
 }
 
-const Search = ({ onSearch, search, searchTerm }) => {
+const Search = ({ onSearch, children, search, searchTerm }) => {
 
   return (
     <>
-      <label htmlFor="search" value={searchTerm}>Search: </label>
+      <label htmlFor="search" value={searchTerm}>{children}</label>
       <input onChange={onSearch} id='search' type='text' value={search} />
       <p>
         Searching for <strong>{searchTerm}</strong>
